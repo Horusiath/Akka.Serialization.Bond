@@ -1,0 +1,6 @@
+namespace Akka.Serialization.Bond.Aliases;
+
+struct ActorRef 
+{
+	0: string path;
+}

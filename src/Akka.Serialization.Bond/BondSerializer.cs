@@ -1,5 +1,15 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="BondSerializer.cs" company="Akka.NET Project">
+//     Copyright (C) 2009-2016 Lightbend Inc. <http://www.lightbend.com>
+//     Copyright (C) 2013-2016 Akka.NET project <https://github.com/akkadotnet/akka.net>
+//     Copyright (C) 2017 Bartosz Sypytkowski <https://github.com/Horusiath>
+// </copyright>
+//-----------------------------------------------------------------------
+
+using System;
 using System.Collections.Concurrent;
+using System.Threading;
+using Akka.Actor;
 using Akka.Configuration;
 
 namespace Akka.Serialization.Bond
@@ -9,6 +19,8 @@ namespace Akka.Serialization.Bond
     /// </summary>
     public sealed class BondSerializer : Akka.Serialization.Serializer
     {
+        internal static AsyncLocal<ActorSystem> LocalSystem = new AsyncLocal<ActorSystem>();
+
         private readonly BondSerializerSettings settings;
         private readonly ConcurrentDictionary<Type, ITypeSerializer> cache = new ConcurrentDictionary<Type, ITypeSerializer>();
         private readonly Func<Type, ITypeSerializer> typeSerializerFactory;
@@ -20,6 +32,8 @@ namespace Akka.Serialization.Bond
         {
             this.settings = settings;
             this.typeSerializerFactory = ConstructTypeSerializerFactory(settings);
+
+            LocalSystem.Value = system;
         }
 
         public override int Identifier { get; } = 151;

@@ -1,4 +1,12 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="TypeSerializers.cs" company="Akka.NET Project">
+//     Copyright (C) 2009-2016 Lightbend Inc. <http://www.lightbend.com>
+//     Copyright (C) 2013-2016 Akka.NET project <https://github.com/akkadotnet/akka.net>
+//     Copyright (C) 2017 Bartosz Sypytkowski <https://github.com/Horusiath>
+// </copyright>
+//-----------------------------------------------------------------------
+
+using System;
 using Bond;
 using Bond.IO.Unsafe;
 using Bond.Protocols;
@@ -14,11 +22,13 @@ namespace Akka.Serialization.Bond
     public abstract class TypeSerializer<TWriter, TReader> : ITypeSerializer
         where TWriter : IProtocolWriter
     {
+        private readonly RuntimeSchema schema;
         private readonly Serializer<TWriter> serializer;
         private readonly Deserializer<TReader> deserializer;
 
         protected TypeSerializer(Type type)
         {
+            this.schema = Schema.GetRuntimeSchema(type);
             this.serializer = new Serializer<TWriter>(type);
             this.deserializer = new Deserializer<TReader>(type);
         }

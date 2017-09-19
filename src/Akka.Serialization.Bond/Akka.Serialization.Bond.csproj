@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Akka.Serialization.Bond</RootNamespace>
     <AssemblyName>Akka.Serialization.Bond</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,8 +66,16 @@
   <ItemGroup>
     <Compile Include="BondSerializer.cs" />
     <Compile Include="BondSerializerSettings.cs" />
+    <Compile Include="BondTypeAliasConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeSerializers.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BondCodegen Include="akka.bond">
+      <Options>$(BondOptions) --readonly-properties</Options>
+    </BondCodegen>
+    <!-- Resharper Workaround -->
+    <!-- End Resharper Workaround -->
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

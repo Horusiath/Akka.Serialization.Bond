@@ -1,6 +1,13 @@
-﻿using Akka.Actor;
+﻿//-----------------------------------------------------------------------
+// <copyright file="BondSerializerSpec.cs" company="Akka.NET Project">
+//     Copyright (C) 2009-2016 Lightbend Inc. <http://www.lightbend.com>
+//     Copyright (C) 2013-2016 Akka.NET project <https://github.com/akkadotnet/akka.net>
+//     Copyright (C) 2017 Bartosz Sypytkowski <https://github.com/Horusiath>
+// </copyright>
+//-----------------------------------------------------------------------
+
+using Akka.Actor;
 using Akka.Configuration;
-using Akka.Util;
 using Bond;
 using FluentAssertions;
 using Xunit;
@@ -29,22 +36,25 @@ namespace Akka.Serialization.Bond.Tests
     }
 
     [Schema]
-    public sealed class LargeRecord
+    public sealed class ComposedRecord
     {
         [Id(0)]
-        public string FirstName { get; set; }
+        public int Id { get; set; }
 
         [Id(1)]
-        public string LastName { get; set; }
+        public string FirstName { get; set; }
 
         [Id(2)]
+        public string LastName { get; set; }
+
+        [Id(3)]
         public SmallRecord[] Records { get; set; }
 
-        public LargeRecord()
+        public ComposedRecord()
         {
         }
 
-        public LargeRecord(string firstName, string lastName, SmallRecord[] records)
+        public ComposedRecord(string firstName, string lastName, SmallRecord[] records)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -79,10 +89,6 @@ namespace Akka.Serialization.Bond.Tests
 		        ""MyNamespace.MyMessage, MyAssembly"" = bond
 
             }
-            serialization-identifiers {
-		        # pick some unused number to recognize this identifier
-		        ""Akka.Serialization.Bond.BondSerializer, Akka.Serialization.Bond"" = 111 
-	        }
             serialization-settings {
 		        bond {
 			        # Default size of an buffer used as intermediate store for serialized messages.
@@ -113,7 +119,7 @@ namespace Akka.Serialization.Bond.Tests
         [InlineData(BondSerializerSettings.ProtocolType.Compact)]
         public void BondSerializer_must_serialize_large_records_marked_with_Bond_schema_attributes(BondSerializerSettings.ProtocolType protocol)
         {
-            var large = new LargeRecord(
+            var large = new ComposedRecord(
                 firstName: "John",
                 lastName: "Doe",
                 records: new []
