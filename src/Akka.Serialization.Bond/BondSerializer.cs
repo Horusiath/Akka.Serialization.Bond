@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.IO;
-using Akka.Actor;
-using Bond.IO.Unsafe;
 using Akka.Configuration;
-using Bond.Protocols;
 
 namespace Akka.Serialization.Bond
 {
-    using global::Bond;
-
     /// <summary>
     /// Microsoft Bond serializer compatible with Akka.NET API.
     /// </summary>
     public sealed class BondSerializer : Akka.Serialization.Serializer
     {
         private readonly BondSerializerSettings settings;
-        private readonly ConcurrentDictionary<Type, Serializer<FastBinaryWriter<OutputBuffer>>> serializerCache = new ConcurrentDictionary<Type, Serializer<FastBinaryWriter<OutputBuffer>>>();
-        private readonly ConcurrentDictionary<Type, Deserializer<FastBinaryReader<InputBuffer>>> deserializerCache = new ConcurrentDictionary<Type, Deserializer<FastBinaryReader<InputBuffer>>>();
+        private readonly ConcurrentDictionary<Type, ITypeSerializer> cache = new ConcurrentDictionary<Type, ITypeSerializer>();
+        private readonly Func<Type, ITypeSerializer> typeSerializerFactory;
 
         public BondSerializer(Akka.Actor.ExtendedActorSystem system) : this(system, BondSerializerSettings.Default) { }
         public BondSerializer(Akka.Actor.ExtendedActorSystem system, Config config) : this(system, BondSerializerSettings.Create(config)) { }
@@ -25,32 +19,36 @@ namespace Akka.Serialization.Bond
         public BondSerializer(Akka.Actor.ExtendedActorSystem system, BondSerializerSettings settings) : base(system)
         {
             this.settings = settings;
-            this.Identifier = SerializerIdentifierHelper.GetSerializerIdentifierFromConfig(this.GetType(), system);
+            this.typeSerializerFactory = ConstructTypeSerializerFactory(settings);
         }
 
-        public override int Identifier { get; }
+        public override int Identifier { get; } = 151;
         public override bool IncludeManifest => false;
         
         public override byte[] ToBinary(object obj)
         {
             var type = obj.GetType();
-            var serializer = serializerCache.GetOrAdd(type, t => new Serializer<FastBinaryWriter<OutputBuffer>>(t));
-            var outputBuffer = new OutputBuffer(settings.BufferSize);
-            var writer = new FastBinaryWriter<OutputBuffer>(outputBuffer);
-            serializer.Serialize(obj, writer);
-
-            return outputBuffer.Data.Array;
+            var serializer = cache.GetOrAdd(type, typeSerializerFactory);
+            return serializer.SerializeObject(obj);
         }
 
         public override object FromBinary(byte[] bytes, Type type)
         {
-            if (type == null) throw new InvalidOperationException($"{GetType()}.FromBinary requires type to be provided");
+            if (type == null) throw new InvalidOperationException($"{nameof(BondSerializer)}.FromBinary requires type to be provided");
 
-            var deserializer = deserializerCache.GetOrAdd(type, t => new Deserializer<FastBinaryReader<InputBuffer>>(t));
-            var inputBuffer = new InputBuffer(bytes);
-            var reader = new FastBinaryReader<InputBuffer>(inputBuffer);
-            var obj = deserializer.Deserialize(reader);
-            return obj;
+            var deserializer = cache.GetOrAdd(type, typeSerializerFactory);
+            return deserializer.DeserializeObject(bytes);
+        }
+
+        private static Func<Type, ITypeSerializer> ConstructTypeSerializerFactory(BondSerializerSettings settings)
+        {
+            switch (settings.Protocol)
+            {
+                case BondSerializerSettings.ProtocolType.Simple: return type => new SimpleBinaryTypeSerializer(type);
+                case BondSerializerSettings.ProtocolType.Fast: return type => new FastBinaryTypeSerializer(type);
+                case BondSerializerSettings.ProtocolType.Compact: return type => new CompactBinaryTypeSerializer(type);
+                default: throw new NotSupportedException($"Protocol type of {settings.Protocol} is not supported by {nameof(BondSerializer)}");
+            }
         }
     }
 }

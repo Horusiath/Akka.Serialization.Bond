@@ -9,14 +9,18 @@ using Xunit.Abstractions;
 namespace Akka.Serialization.Bond.Tests
 {
     [Schema]
-    public struct SmallRecord
+    public sealed class SmallRecord
     {
         [Id(0)]
         public int X { get; set; }
 
         [Id(1)]
         public int Y { get; set; }
-        
+
+        public SmallRecord()
+        {
+        }
+
         public SmallRecord(int x, int y)
         {
             X = x;
@@ -25,7 +29,7 @@ namespace Akka.Serialization.Bond.Tests
     }
 
     [Schema]
-    public class LargeRecord
+    public sealed class LargeRecord
     {
         [Id(0)]
         public string FirstName { get; set; }
@@ -86,21 +90,28 @@ namespace Akka.Serialization.Bond.Tests
 		        }
 	        }
         }");
-        private readonly BondSerializer serializer;
 
         public BondSerializerSpecs(ITestOutputHelper output) : base(Config, output: output)
         {
-            serializer = new BondSerializer((ExtendedActorSystem)Sys);
         }
 
-        [Fact]
-        public void BondSerializer_must_serialize_small_records_marked_with_Bond_schema_attributes()
+        [Theory]
+        [InlineData(BondSerializerSettings.ProtocolType.Simple)]
+        [InlineData(BondSerializerSettings.ProtocolType.Fast)]
+        [InlineData(BondSerializerSettings.ProtocolType.Compact)]
+        public void BondSerializer_must_serialize_small_records_marked_with_Bond_schema_attributes(BondSerializerSettings.ProtocolType protocol)
         {
-            Roundtrip(new SmallRecord(1, 2));
+            var settings = BondSerializerSettings.Default.WithProtocol(protocol);
+            var serializer = new BondSerializer((ExtendedActorSystem)Sys, settings);
+
+            Roundtrip(serializer, new SmallRecord(1, 2));
         }
 
-        [Fact]
-        public void BondSerializer_must_serialize_large_records_marked_with_Bond_schema_attributes()
+        [Theory]
+        [InlineData(BondSerializerSettings.ProtocolType.Simple)]
+        [InlineData(BondSerializerSettings.ProtocolType.Fast)]
+        [InlineData(BondSerializerSettings.ProtocolType.Compact)]
+        public void BondSerializer_must_serialize_large_records_marked_with_Bond_schema_attributes(BondSerializerSettings.ProtocolType protocol)
         {
             var large = new LargeRecord(
                 firstName: "John",
@@ -114,10 +125,12 @@ namespace Akka.Serialization.Bond.Tests
                     new SmallRecord(5, 6),
                 });
 
-            Roundtrip(large);
+            var settings = BondSerializerSettings.Default.WithProtocol(protocol);
+            var serializer = new BondSerializer((ExtendedActorSystem)Sys, settings);
+            Roundtrip(serializer, large);
         }
         
-        private void Roundtrip<T>(T value)
+        private void Roundtrip<T>(BondSerializer serializer, T value)
         {
             var bytes = serializer.ToBinary(value);
             var deserialized = serializer.FromBinary(bytes, typeof(T));

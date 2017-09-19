@@ -30,25 +30,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Akka, Version=1.2.0.33, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Akka.1.2.0\lib\net45\Akka.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Akka, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Akka.1.3.1\lib\net45\Akka.dll</HintPath>
     </Reference>
-    <Reference Include="Bond, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Bond.Core.CSharp.5.3.1\lib\net45\Bond.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Bond, Version=6.0.0.100, Culture=neutral, PublicKeyToken=87e9ead25a117286, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Bond.Core.CSharp.6.0.0\lib\net45\Bond.dll</HintPath>
     </Reference>
-    <Reference Include="Bond.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Bond.Core.CSharp.5.3.1\lib\net45\Bond.Attributes.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Bond.Attributes, Version=6.0.0.100, Culture=neutral, PublicKeyToken=87e9ead25a117286, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Bond.Core.CSharp.6.0.0\lib\net45\Bond.Attributes.dll</HintPath>
     </Reference>
-    <Reference Include="Bond.IO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Bond.Core.CSharp.5.3.1\lib\net45\Bond.IO.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Bond.IO, Version=6.0.0.100, Culture=neutral, PublicKeyToken=87e9ead25a117286, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Bond.Core.CSharp.6.0.0\lib\net45\Bond.IO.dll</HintPath>
     </Reference>
-    <Reference Include="Bond.Reflection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Bond.Core.CSharp.5.3.1\lib\net45\Bond.Reflection.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Bond.Reflection, Version=6.0.0.100, Culture=neutral, PublicKeyToken=87e9ead25a117286, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Bond.Core.CSharp.6.0.0\lib\net45\Bond.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -71,6 +66,7 @@
     <Compile Include="BondSerializer.cs" />
     <Compile Include="BondSerializerSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeSerializers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
