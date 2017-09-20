@@ -78,6 +78,7 @@
     <!-- End Resharper Workaround -->
   </ItemGroup>
   <ItemGroup>
+    <None Include="Akka.Serialization.Bond.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
