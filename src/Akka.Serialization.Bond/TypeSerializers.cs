@@ -22,13 +22,14 @@ namespace Akka.Serialization.Bond
     public abstract class TypeSerializer<TWriter, TReader> : ITypeSerializer
         where TWriter : IProtocolWriter
     {
-        private readonly RuntimeSchema schema;
         private readonly Serializer<TWriter> serializer;
         private readonly Deserializer<TReader> deserializer;
+        private Type type;
+        private BondSerializerSettings settings;
 
-        protected TypeSerializer(Type type)
+        protected TypeSerializer(Type type, BondSerializerSettings settings)
         {
-            this.schema = Schema.GetRuntimeSchema(type);
+            this.settings = settings;
             this.serializer = new Serializer<TWriter>(type);
             this.deserializer = new Deserializer<TReader>(type);
         }
@@ -38,7 +39,7 @@ namespace Akka.Serialization.Bond
 
         public byte[] SerializeObject(object value)
         {
-            var buffer = new OutputBuffer();
+            var buffer = new OutputBuffer(length: settings.BufferSize);
             var writer = CreateWriter(buffer);
 
             serializer.Serialize(value, writer);
@@ -66,21 +67,21 @@ namespace Akka.Serialization.Bond
 
     public sealed class SimpleBinaryTypeSerializer : TypeSerializer<SimpleBinaryWriter<OutputBuffer>, SimpleBinaryReader<InputBuffer>>
     {
-        public SimpleBinaryTypeSerializer(Type type) : base(type) { }
+        public SimpleBinaryTypeSerializer(Type type, BondSerializerSettings settings) : base(type, settings) { }
         protected override SimpleBinaryWriter<OutputBuffer> CreateWriter(OutputBuffer buffer) => new SimpleBinaryWriter<OutputBuffer>(buffer);
         protected override SimpleBinaryReader<InputBuffer> CreateReader(InputBuffer buffer) => new SimpleBinaryReader<InputBuffer>(buffer);
     }
 
     public sealed class FastBinaryTypeSerializer : TypeSerializer<FastBinaryWriter<OutputBuffer>, FastBinaryReader<InputBuffer>>
     {
-        public FastBinaryTypeSerializer(Type type) : base(type) { }
+        public FastBinaryTypeSerializer(Type type, BondSerializerSettings settings) : base(type, settings) { }
         protected override FastBinaryWriter<OutputBuffer> CreateWriter(OutputBuffer buffer) => new FastBinaryWriter<OutputBuffer>(buffer);
         protected override FastBinaryReader<InputBuffer> CreateReader(InputBuffer buffer) => new FastBinaryReader<InputBuffer>(buffer);
     }
     
     public sealed class CompactBinaryTypeSerializer : TypeSerializer<CompactBinaryWriter<OutputBuffer>, CompactBinaryReader<InputBuffer>>
     {
-        public CompactBinaryTypeSerializer(Type type) : base(type) { }
+        public CompactBinaryTypeSerializer(Type type, BondSerializerSettings settings) : base(type, settings) { }
         protected override CompactBinaryWriter<OutputBuffer> CreateWriter(OutputBuffer buffer) => new CompactBinaryWriter<OutputBuffer>(buffer);
         protected override CompactBinaryReader<InputBuffer> CreateReader(InputBuffer buffer) => new CompactBinaryReader<InputBuffer>(buffer);
     }

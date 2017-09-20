@@ -13,14 +13,12 @@ akka.actor {
 		# don't use Bond as a default serializer
 		"MyNamespace.MyMessage, MyAssembly" = bond
 	}
-	serialization-identifiers {
-		# pick some unused number to recognize this identifier
-		"Akka.Serialization.Bond.BondSerializer, Akka.Serialization.Bond" = 111 
-	}
 	serialization-settings {
 		bond {
 			# Default size of an buffer used as intermediate store for serialized messages.
 			buffer-size = 1024
+			# type of binary protocol used by Bond. Either: simple | fast | compact
+			protoocol = simple
 		}
 	}
 }

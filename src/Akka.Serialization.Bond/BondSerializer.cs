@@ -21,7 +21,6 @@ namespace Akka.Serialization.Bond
     {
         internal static AsyncLocal<ActorSystem> LocalSystem = new AsyncLocal<ActorSystem>();
 
-        private readonly BondSerializerSettings settings;
         private readonly ConcurrentDictionary<Type, ITypeSerializer> cache = new ConcurrentDictionary<Type, ITypeSerializer>();
         private readonly Func<Type, ITypeSerializer> typeSerializerFactory;
 
@@ -30,12 +29,13 @@ namespace Akka.Serialization.Bond
 
         public BondSerializer(Akka.Actor.ExtendedActorSystem system, BondSerializerSettings settings) : base(system)
         {
-            this.settings = settings;
+            this.Settings = settings;
             this.typeSerializerFactory = ConstructTypeSerializerFactory(settings);
 
             LocalSystem.Value = system;
         }
 
+        public BondSerializerSettings Settings { get; }
         public override int Identifier { get; } = 151;
         public override bool IncludeManifest => false;
         
@@ -58,9 +58,9 @@ namespace Akka.Serialization.Bond
         {
             switch (settings.Protocol)
             {
-                case BondSerializerSettings.ProtocolType.Simple: return type => new SimpleBinaryTypeSerializer(type);
-                case BondSerializerSettings.ProtocolType.Fast: return type => new FastBinaryTypeSerializer(type);
-                case BondSerializerSettings.ProtocolType.Compact: return type => new CompactBinaryTypeSerializer(type);
+                case BondSerializerSettings.ProtocolType.Simple: return type => new SimpleBinaryTypeSerializer(type, settings);
+                case BondSerializerSettings.ProtocolType.Fast: return type => new FastBinaryTypeSerializer(type, settings);
+                case BondSerializerSettings.ProtocolType.Compact: return type => new CompactBinaryTypeSerializer(type, settings);
                 default: throw new NotSupportedException($"Protocol type of {settings.Protocol} is not supported by {nameof(BondSerializer)}");
             }
         }

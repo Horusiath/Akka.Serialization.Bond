@@ -104,6 +104,7 @@
     <Compile Include="BondSerializerSpecs.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializerConfigSpec.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Akka.Serialization.Bond\Akka.Serialization.Bond.csproj">
