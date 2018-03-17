@@ -1,4 +1,4 @@
-namespace Akka.Serialization.Bond.Aliases;
+﻿namespace Akka.Serialization.Bond.Aliases;
 
 struct ActorRef 
 {

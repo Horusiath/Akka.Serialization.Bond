@@ -1,22 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CA935A44-3974-4421-92EC-8F117BB3FD14}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Akka.Serialization.Bond", "src\Akka.Serialization.Bond\Akka.Serialization.Bond.csproj", "{691C68B1-7FEA-4A14-ABCE-1E7CF4E12CE3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Akka.Serialization.Bond.Tests", "src\Akka.Serialization.Bond.Tests\Akka.Serialization.Bond.Tests.csproj", "{3D23D263-2F8D-41B4-8657-EEE6DD6A1102}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1775F164-8074-4C41-8EF6-684573C58549}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		build.cmd = build.cmd
 		build.fsx = build.fsx
+		build.ps1 = build.ps1
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Akka.Serialization.Bond", "src\Akka.Serialization.Bond\Akka.Serialization.Bond.csproj", "{DF767746-545F-4AA2-8681-E4D12495B4B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Akka.Serialization.Bond.Tests", "src\Akka.Serialization.Bond.Tests\Akka.Serialization.Bond.Tests.csproj", "{5409C87D-AAC1-42B0-98EE-79AF080749EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,20 +25,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{691C68B1-7FEA-4A14-ABCE-1E7CF4E12CE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{691C68B1-7FEA-4A14-ABCE-1E7CF4E12CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{691C68B1-7FEA-4A14-ABCE-1E7CF4E12CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{691C68B1-7FEA-4A14-ABCE-1E7CF4E12CE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D23D263-2F8D-41B4-8657-EEE6DD6A1102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D23D263-2F8D-41B4-8657-EEE6DD6A1102}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D23D263-2F8D-41B4-8657-EEE6DD6A1102}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D23D263-2F8D-41B4-8657-EEE6DD6A1102}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF767746-545F-4AA2-8681-E4D12495B4B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF767746-545F-4AA2-8681-E4D12495B4B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF767746-545F-4AA2-8681-E4D12495B4B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF767746-545F-4AA2-8681-E4D12495B4B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5409C87D-AAC1-42B0-98EE-79AF080749EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5409C87D-AAC1-42B0-98EE-79AF080749EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5409C87D-AAC1-42B0-98EE-79AF080749EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5409C87D-AAC1-42B0-98EE-79AF080749EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{691C68B1-7FEA-4A14-ABCE-1E7CF4E12CE3} = {CA935A44-3974-4421-92EC-8F117BB3FD14}
-		{3D23D263-2F8D-41B4-8657-EEE6DD6A1102} = {CA935A44-3974-4421-92EC-8F117BB3FD14}
+		{DF767746-545F-4AA2-8681-E4D12495B4B3} = {CA935A44-3974-4421-92EC-8F117BB3FD14}
+		{5409C87D-AAC1-42B0-98EE-79AF080749EC} = {CA935A44-3974-4421-92EC-8F117BB3FD14}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3ECEB4E5-2703-40D0-814B-F836F6C45439}
 	EndGlobalSection
 EndGlobal
