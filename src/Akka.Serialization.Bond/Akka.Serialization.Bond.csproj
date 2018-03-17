@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;net462</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.2.0</Version>
+    <Authors>Horusiath</Authors>
+    <Company />
+    <PackageLicenseUrl>https://github.com/Horusiath/Akka.Serialization.Bond/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Horusiath/Akka.Serialization.Bond</PackageProjectUrl>
+    <Description>Akka.NET integration plugin for Microsoft Bond serizalier.</Description>
+    <PackageTags>akka.net serialization bond</PackageTags>
+    <PackageReleaseNotes>Updated  to .NET Standard.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Akka.Serialization.Bond</id>
+    <version>0.2</version>
+    <authors>Horusiath</authors>
+    <owners>Horusiath</owners>
+    <licenseUrl>https://github.com/Horusiath/Akka.Serialization.Bond/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Horusiath/Akka.Serialization.Bond</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Akka.NET integration plugin for Microsoft Bond serizalier.</description>
+    <releaseNotes>Initialized package</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>akka.net serialization bond</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.6.2">
+        <dependency id="Akka" version="1.3.5" exclude="Build,Analyzers" />
+        <dependency id="Bond.Core.CSharp" version="7.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard1.6">
+        <dependency id="Akka" version="1.3.5" exclude="Build,Analyzers" />
+        <dependency id="Bond.Core.CSharp" version="7.0.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
